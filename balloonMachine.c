@@ -1,10 +1,6 @@
 #include "balloonMachine.h"
-#include "stm32f0xx_hal.h"
-#include "settings.h"
-#include "functions.h"
 
-
-void balloonMachine(void){
+void balloonMachine(){
 
 
     static volatile unsigned int timeCnt = 0;
@@ -24,7 +20,7 @@ void balloonMachine(void){
                 currentState = POWER_OFF_STATE;
 								break;
 							case POWER_OFF_STATE:
-								checkBattery();
+								//checkBattery();
 								modeDisplay(modeState);
                 currentState = POWER_ON_STATE;
 								break;

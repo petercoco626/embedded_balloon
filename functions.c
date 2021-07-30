@@ -1,7 +1,7 @@
 
-#include "stm32f0xx_hal.h"
+
 #include "functions.h"
-#include "settings.h"
+
 //#include <stdio.h>
 
 
@@ -123,11 +123,26 @@ void switchMode(unsigned char* modeState){
 
 
 
-void checkBattery(void){
-    // battery check
+void checkBattery(){
+		ADC_HandleTypeDef hadc;
+	
+    HAL_ADC_Start(&hadc);
+    HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+    unsigned int value = HAL_ADC_GetValue(&hadc);
 
-    // display LED on Battery;
-
-
+		if(value > 0 && value < 3200){
+			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_RESET);
+		}
+		else if(value >= 3200 && value < 3400){
+			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12 | GPIO_PIN_11,GPIO_PIN_RESET);
+		}
+		else if(value >= 3400 && value < 3800){
+			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12 | GPIO_PIN_11 | GPIO_PIN_10,GPIO_PIN_RESET);
+		}
+		else if(value >= 3800 && value <= 4096){
+			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12 | GPIO_PIN_11 | GPIO_PIN_10 | GPIO_PIN_9,GPIO_PIN_RESET);
+		}
+		
+    HAL_ADC_Stop(&hadc);
 
 }

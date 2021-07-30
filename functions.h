@@ -1,4 +1,7 @@
 
+#include "stm32f0xx_hal.h"
+#include "settings.h"
+
 void switchPowerOn(void);
 void switchPowerOff(void);
 void runDevice(unsigned char modeStatem, unsigned char* isConfig);
