@@ -4,4 +4,4 @@
 #include "settings.h"
 #include "functions.h"
 
-void balloonMachine(void);
+void balloonMachine(ADC_HandleTypeDef* hadc);

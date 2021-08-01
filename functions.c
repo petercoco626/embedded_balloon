@@ -123,12 +123,12 @@ void switchMode(unsigned char* modeState){
 
 
 
-void checkBattery(){
-		ADC_HandleTypeDef hadc;
+void checkBattery(ADC_HandleTypeDef* hadc){
+		//ADC_HandleTypeDef hadc;
 	
-    HAL_ADC_Start(&hadc);
-    HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
-    unsigned int value = HAL_ADC_GetValue(&hadc);
+    HAL_ADC_Start(hadc);
+    HAL_ADC_PollForConversion(hadc, HAL_MAX_DELAY);
+    unsigned int value = HAL_ADC_GetValue(hadc);
 
 		if(value > 0 && value < 3200){
 			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_RESET);
@@ -143,6 +143,6 @@ void checkBattery(){
 			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12 | GPIO_PIN_11 | GPIO_PIN_10 | GPIO_PIN_9,GPIO_PIN_RESET);
 		}
 		
-    HAL_ADC_Stop(&hadc);
+    HAL_ADC_Stop(hadc);
 
 }

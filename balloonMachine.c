@@ -1,6 +1,6 @@
 #include "balloonMachine.h"
 
-void balloonMachine(){
+void balloonMachine(ADC_HandleTypeDef* hadc){
 
 
     static volatile unsigned int timeCnt = 0;
@@ -12,7 +12,7 @@ void balloonMachine(){
     // power on
     if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_3) == 0) timeCnt++;
     else{
-        if(timeCnt > FRAME_POWER_BUTTON_TOGGLE){
+        if(timeCnt >= FRAME_POWER_BUTTON_TOGGLE){
 					
 						switch(currentState){
 							case POWER_ON_STATE:
@@ -20,7 +20,7 @@ void balloonMachine(){
                 currentState = POWER_OFF_STATE;
 								break;
 							case POWER_OFF_STATE:
-								//checkBattery();
+								checkBattery(hadc);
 								modeDisplay(modeState);
                 currentState = POWER_ON_STATE;
 								break;
@@ -30,9 +30,9 @@ void balloonMachine(){
 
             
         }
-        //else{
-				//		if(currentState == POWER_ON_STATE) currentState = MODE_SWITCH_STATE;
-        //}
+        else if (timeCnt > 0 && timeCnt < FRAME_POWER_BUTTON_TOGGLE){
+						if(currentState == POWER_ON_STATE) currentState = MODE_SWITCH_STATE;
+        }
         
         timeCnt = 0;
     }
