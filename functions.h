@@ -2,10 +2,43 @@
 #include "stm32f0xx_hal.h"
 #include "settings.h"
 
-void switchPowerOn(void);
+typedef struct _ballonConfigurations{
+	
+	
+	//unsigned int timeCnt;
+	//unsigned char currentState;
+	//unsigned char modeState;
+	
+	
+	unsigned int timeCntModeBtn;
+	unsigned int activatingSOI;
+	unsigned int isModeRunning;
+	
+	unsigned int timeSOI;
+	
+	unsigned int activatingTime;
+	
+	unsigned char currentModeNo;
+		
+	unsigned int batteryCheckingTime;
+	
+	
+	
+} ballonConfigurations;
+
+
+
+
+void switchPowerOn(ballonConfigurations* configurations);
 void switchPowerOff(void);
-void runDevice(unsigned char modeStatem, unsigned char* isConfig);
-void checkBattery(ADC_HandleTypeDef* hadc);
+void runDevice(ballonConfigurations* configurations, unsigned char modeState, ADC_HandleTypeDef* hadc);
+void checkBattery(ADC_HandleTypeDef* hadc, ballonConfigurations* configurations);
 void switchMode(unsigned char* modeState);
-void runMode(unsigned char ModeNo, unsigned int* timeCntModeBtn);
-void modeDisplay(unsigned char modeNo);
+
+void runMode(unsigned char ModeNo, ballonConfigurations* configurations);
+void runAOI(ballonConfigurations* configurations);
+
+void modeDisplay(unsigned char modeNo, ballonConfigurations* configurations);
+
+
+
