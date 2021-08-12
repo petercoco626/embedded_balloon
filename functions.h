@@ -19,10 +19,10 @@ typedef struct _ballonConfigurations{
 	unsigned int activatingTime;
 	
 	unsigned char currentModeNo;
+	
+	unsigned int compareBattery;
+	unsigned int chekingBatteryTime;
 		
-	unsigned int batteryCheckingTime;
-	
-	
 	
 } ballonConfigurations;
 

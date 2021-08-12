@@ -33,7 +33,7 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 
             
         }
-        else if (timeCnt > FRAME_MODE_BUTTON_SWITCH && timeCnt < FRAME_POWER_BUTTON_TOGGLE){
+        else if (timeCnt > 0 && timeCnt < FRAME_MODE_BUTTON_SWITCH){
 						if(currentState == POWER_ON_STATE) currentState = MODE_SWITCH_STATE;
         }
         
