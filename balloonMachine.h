@@ -5,3 +5,4 @@
 
 
 void balloonMachine(ADC_HandleTypeDef* hadc);
+void resetDeviceOnVoltage(void);

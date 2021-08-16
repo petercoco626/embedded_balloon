@@ -19,10 +19,10 @@ typedef struct _ballonConfigurations{
 	unsigned int activatingTime;
 	
 	unsigned char currentModeNo;
+	
+	unsigned int compareBattery;
+	unsigned int chekingBatteryTime;
 		
-	unsigned int batteryCheckingTime;
-	
-	
 	
 } ballonConfigurations;
 
@@ -33,7 +33,7 @@ void switchPowerOn(ballonConfigurations* configurations);
 void switchPowerOff(void);
 void runDevice(ballonConfigurations* configurations, unsigned char modeState, ADC_HandleTypeDef* hadc);
 void checkBattery(ADC_HandleTypeDef* hadc, ballonConfigurations* configurations);
-void switchMode(unsigned char* modeState);
+void switchMode(unsigned char* modeState, ballonConfigurations* configurations);
 
 void runMode(unsigned char ModeNo, ballonConfigurations* configurations);
 void runAOI(ballonConfigurations* configurations);
