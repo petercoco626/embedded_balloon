@@ -19,6 +19,11 @@ typedef struct _ballonConfigurations{
 	
 	unsigned int compareBattery;
 	unsigned int chekingBatteryTime;
+	
+	unsigned int chekingBatteryStateOnTime;
+	unsigned int chekingBatteryStateOffTime;
+	unsigned int chekingBatteryState;
+	
 		
 	
 } ballonConfigurations;

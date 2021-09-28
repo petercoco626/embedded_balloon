@@ -10,6 +10,7 @@ void switchPowerOn(ballonConfigurations* configurations){
 		configurations->activatingSOI = 0;
 		configurations->isModeRunning = 0;
 	
+	
 		configurations->timeSOI = 0;
 	
 		configurations->activatingTime = 0;
@@ -146,34 +147,62 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 					case MODE_4:
 
 							// 모터 동작 ! 
-							if(configurations->activatingTime == 0){
+								if(configurations->activatingTime == 0){
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_SET);
 							}
-							if(configurations->activatingTime < MODE_4_FRAME) configurations->activatingTime++;
 
-							// 모터 동작 휴식
-							if(configurations->activatingTime >= MODE_4_FRAME && configurations->breakingTime < MODE_4_BREAKING_FRAME){
-								
-								// mode 4의 경우 총 3번쉬어야 하기 때문에 3번이 아니면 breaking Time 동안 쉬기
-								if(configurations->breakingCount <= MODE_4_BREAKING_COUNT){
+							if(configurations->breakingCount == 0){
+								if(configurations->activatingTime < MODE_4_1_FRAME) configurations->activatingTime++;
+
+								// 모터 동작 휴식
+								if(configurations->activatingTime >= MODE_4_1_FRAME && configurations->breakingTime == 0){
 									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
-									configurations->breakingTime++;
+									
+								}
+								
+								if(configurations->activatingTime >= MODE_4_1_FRAME && configurations->breakingTime < MODE_4_BREAKING_FRAME) configurations->breakingTime++;
+
+								if(configurations->breakingTime >= MODE_4_BREAKING_FRAME){
+									configurations->breakingCount++;
+									configurations->breakingTime = 0;
+									configurations->activatingTime = 0;
 								}
 							}
-							// 쉬는 시간이 끝나면 쉬는시간 리셋, 카운트 +1, 모터 동작시간 리셋
-							if(configurations->breakingTime >= MODE_4_BREAKING_FRAME){
-								configurations->breakingCount++;
-								configurations->breakingTime = 0;
-								configurations->activatingTime = 0;
-							}
+							else if(configurations->breakingCount == 1){
+								if(configurations->activatingTime < MODE_4_2_FRAME) configurations->activatingTime++;
 
-							// 모터 동작시간이 꽉찼는데, 쉰 횟수또한 조건을 만족했다면 동작 루틴 스탑
-							if(configurations->activatingTime >= MODE_4_FRAME && configurations->breakingCount > MODE_4_BREAKING_COUNT ){
-								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
-								configurations->activatingTime = 0;
-								configurations->activatingSOI = 1;
-								configurations->isModeRunning = 0;
-								configurations->breakingCount = 0;
+								// 모터 동작 휴식
+								if(configurations->activatingTime >= MODE_4_2_FRAME && configurations->breakingTime == 0){
+									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+									
+								}
+
+								if(configurations->activatingTime >= MODE_4_2_FRAME && configurations->breakingTime < MODE_4_BREAKING_FRAME) configurations->breakingTime++;
+								
+								if(configurations->breakingTime >= MODE_4_BREAKING_FRAME){
+									configurations->breakingCount++;
+									configurations->breakingTime = 0;
+									configurations->activatingTime = 0;
+								}
+							}
+							else{
+								if(configurations->activatingTime < MODE_4_3_FRAME) configurations->activatingTime++;
+
+								// 모터 동작 휴식
+								if(configurations->activatingTime >= MODE_4_3_FRAME && configurations->breakingTime == 0){
+									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+									
+								}
+								
+								if(configurations->activatingTime >= MODE_4_3_FRAME && configurations->breakingTime < MODE_4_BREAKING_FRAME) configurations->breakingTime++;
+
+								if(configurations->breakingTime >= MODE_4_BREAKING_FRAME){
+									configurations->activatingTime = 0;
+									configurations->activatingSOI = 1;
+									configurations->isModeRunning = 0;
+									configurations->breakingCount = 0;
+									configurations->breakingTime = 0;
+								}
 							}
 							break;	
 
@@ -185,14 +214,15 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 							if(configurations->activatingTime < MODE_5_FRAME) configurations->activatingTime++;
 
 							// 모터 동작 휴식
-							if(configurations->activatingTime >= MODE_5_FRAME && configurations->breakingTime < MODE_5_BREAKING_FRAME){
+							if(configurations->activatingTime >= MODE_5_FRAME && configurations->breakingTime == 0){
 								
 								// mode 4의 경우 총 3번쉬어야 하기 때문에 3번이 아니면 breaking Time 동안 쉬기
-								if(configurations->breakingCount <= MODE_5_BREAKING_COUNT){
+								if(configurations->breakingCount < MODE_5_BREAKING_COUNT){
 									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
-									configurations->breakingTime++;
 								}
 							}
+							
+							if(configurations->activatingTime >= MODE_5_FRAME && configurations->breakingTime < MODE_5_BREAKING_FRAME) configurations->breakingTime++;
 							// 쉬는 시간이 끝나면 쉬는시간 리셋, 카운트 +1, 모터 동작시간 리셋
 							if(configurations->breakingTime >= MODE_5_BREAKING_FRAME){
 								configurations->breakingCount++;
@@ -201,12 +231,13 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 							}
 
 							// 모터 동작시간이 꽉찼는데, 쉰 횟수또한 조건을 만족했다면 동작 루틴 스탑
-							if(configurations->activatingTime >= MODE_5_FRAME && configurations->breakingCount > MODE_5_BREAKING_COUNT ){
-								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+							if(configurations->activatingTime >= MODE_5_FRAME && configurations->breakingCount >= MODE_5_BREAKING_COUNT ){
+								
 								configurations->activatingTime = 0;
 								configurations->activatingSOI = 1;
 								configurations->isModeRunning = 0;
 								configurations->breakingCount = 0;
+								configurations->breakingTime = 0;
 							}
 							break;		
 					case MODE_6:
@@ -217,14 +248,17 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 							if(configurations->activatingTime < MODE_6_FRAME) configurations->activatingTime++;
 
 							// 모터 동작 휴식
-							if(configurations->activatingTime >= MODE_6_FRAME && configurations->breakingTime < MODE_6_BREAKING_FRAME){
+							if(configurations->activatingTime >= MODE_6_FRAME && configurations->breakingTime == 0){
 								
 								// mode 4의 경우 총 3번쉬어야 하기 때문에 3번이 아니면 breaking Time 동안 쉬기
-								if(configurations->breakingCount <= MODE_6_BREAKING_COUNT){
+								if(configurations->breakingCount < MODE_6_BREAKING_COUNT){
 									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
-									configurations->breakingTime++;
+									
 								}
 							}
+							
+							if(configurations->activatingTime >= MODE_6_FRAME && configurations->breakingTime < MODE_6_BREAKING_FRAME) configurations->breakingTime++;
+							
 							// 쉬는 시간이 끝나면 쉬는시간 리셋, 카운트 +1, 모터 동작시간 리셋
 							if(configurations->breakingTime >= MODE_6_BREAKING_FRAME){
 								configurations->breakingCount++;
@@ -233,12 +267,13 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 							}
 
 							// 모터 동작시간이 꽉찼는데, 쉰 횟수또한 조건을 만족했다면 동작 루틴 스탑
-							if(configurations->activatingTime >= MODE_6_FRAME && configurations->breakingCount > MODE_6_BREAKING_COUNT ){
-								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+							if(configurations->activatingTime >= MODE_6_FRAME && configurations->breakingCount >= MODE_6_BREAKING_COUNT ){
+								
 								configurations->activatingTime = 0;
 								configurations->activatingSOI = 1;
 								configurations->isModeRunning = 0;
 								configurations->breakingCount = 0;
+								configurations->breakingTime = 0;
 							}
 							break;	
 					case MODE_7:
@@ -250,12 +285,14 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 							if(configurations->activatingTime < MODE_7_FRAME) configurations->activatingTime++;
 
 							// 모터 동작 휴식
-							if(configurations->activatingTime >= MODE_7_FRAME && configurations->breakingTime < MODE_7_BREAKING_FRAME){
+							if(configurations->activatingTime >= MODE_7_FRAME && configurations->breakingTime == 0){
 								
 								// mode 7의 경우, 1초동작, 1초휴식이 무한 반복이다 
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
-								configurations->breakingTime++;
+								
 							}
+							
+							if(configurations->activatingTime >= MODE_7_FRAME && configurations->breakingTime < MODE_7_BREAKING_FRAME) configurations->breakingTime++;
 							
 							// 모드 7에서는 무한반복이므로 솔레노이드를 돌릴필요가 없다. 계속 무한 반복이다.
 							if(configurations->breakingTime >= MODE_7_BREAKING_FRAME){
@@ -277,10 +314,12 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								if(configurations->activatingTime < MODE_8_1_FRAME) configurations->activatingTime++;
 
 								// 모터 동작 휴식
-								if(configurations->activatingTime >= MODE_8_1_FRAME && configurations->breakingTime < MODE_8_1_BREAKING_FRAME){
+								if(configurations->activatingTime >= MODE_8_1_FRAME && configurations->breakingTime == 0){
 									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
-									configurations->breakingTime++;
+									
 								}
+								
+								if(configurations->activatingTime >= MODE_8_1_FRAME && configurations->breakingTime < MODE_8_1_BREAKING_FRAME) configurations->breakingTime++;
 
 								if(configurations->breakingTime >= MODE_8_1_BREAKING_FRAME){
 									configurations->breakingCount++;
@@ -292,11 +331,13 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								if(configurations->activatingTime < MODE_8_2_FRAME) configurations->activatingTime++;
 
 								// 모터 동작 휴식
-								if(configurations->activatingTime >= MODE_8_2_FRAME && configurations->breakingTime < MODE_8_2_BREAKING_FRAME){
+								if(configurations->activatingTime >= MODE_8_2_FRAME && configurations->breakingTime == 0){
 									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
-									configurations->breakingTime++;
+									
 								}
 
+								if(configurations->activatingTime >= MODE_8_2_FRAME && configurations->breakingTime < MODE_8_2_BREAKING_FRAME) configurations->breakingTime++;
+								
 								if(configurations->breakingTime >= MODE_8_2_BREAKING_FRAME){
 									configurations->breakingCount++;
 									configurations->breakingTime = 0;
@@ -307,13 +348,15 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								if(configurations->activatingTime < MODE_8_3_FRAME) configurations->activatingTime++;
 
 								// 모터 동작 휴식
-								if(configurations->activatingTime >= MODE_8_3_FRAME && configurations->breakingTime < MODE_8_3_BREAKING_FRAME){
+								if(configurations->activatingTime >= MODE_8_3_FRAME && configurations->breakingTime == 0){
 									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
-									configurations->breakingTime++;
+									
 								}
+								
+								if(configurations->activatingTime >= MODE_8_3_FRAME && configurations->breakingTime < MODE_8_3_BREAKING_FRAME) configurations->breakingTime++;
 
 								if(configurations->breakingTime >= MODE_8_3_BREAKING_FRAME){
-									configurations->breakingCount=0;
+									configurations->breakingCount = 0;
 									configurations->breakingTime = 0;
 									configurations->activatingTime = 0;
 								}
@@ -331,11 +374,13 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 							if(configurations->activatingTime < MODE_9_FRAME) configurations->activatingTime++;
 
 							// 모터 동작 휴식
-							if(configurations->activatingTime >= MODE_9_FRAME && configurations->breakingTime < MODE_9_BREAKING_FRAME){
+							if(configurations->activatingTime >= MODE_9_FRAME && configurations->breakingTime == 0){
 								
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
-								configurations->breakingTime++;
+								
 							}
+							
+							if(configurations->activatingTime >= MODE_9_FRAME && configurations->breakingTime < MODE_9_BREAKING_FRAME) configurations->breakingTime++;
 							
 							if(configurations->breakingTime >= MODE_9_BREAKING_FRAME){
 								configurations->breakingTime = 0;
@@ -450,6 +495,30 @@ void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
 
 void checkBattery(ADC_HandleTypeDef* hadc, ballonConfigurations* configurations){
 		
+			if(configurations->chekingBatteryState == 0){
+				if(configurations->chekingBatteryStateOnTime == 0){
+					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_SET);
+				}
+				configurations->chekingBatteryStateOnTime++;
+				
+				if( configurations->chekingBatteryStateOnTime >= PIN_26_POWER_ON_FRAME){
+					configurations->chekingBatteryStateOnTime = 0;
+					configurations->chekingBatteryState = 1;
+				}
+			}
+			else{
+				if(configurations->chekingBatteryStateOffTime == 0){
+					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+				}
+				configurations->chekingBatteryStateOffTime++;
+				
+				if( configurations->chekingBatteryStateOffTime >= PIN_26_POWER_OFF_FRAME){
+					configurations->chekingBatteryStateOffTime = 0;
+					configurations->chekingBatteryState = 0;
+				}
+			}
+		  
+	
 			if( configurations->chekingBatteryTime == CHEKING_BATTERY_TIME_FRAME){
 				HAL_ADC_Start(hadc);
 				HAL_ADC_PollForConversion(hadc, HAL_MAX_DELAY);
@@ -459,17 +528,27 @@ void checkBattery(ADC_HandleTypeDef* hadc, ballonConfigurations* configurations)
 					if(value > BATTERY_CHECK_STATE_1_ADC_MIN && value <= BATTERY_CHECK_STATE_1_ADC_MAX){
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_RESET);
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11,GPIO_PIN_SET);
+						
+						configurations->chekingBatteryState = 0;
 					}
 					else if(value > BATTERY_CHECK_STATE_2_ADC_MIN && value <= BATTERY_CHECK_STATE_2_ADC_MAX){
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12 | GPIO_PIN_11,GPIO_PIN_RESET);
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10,GPIO_PIN_SET);
+						
+						configurations->chekingBatteryState = 0;
 					}
 					else if(value > BATTERY_CHECK_STATE_3_ADC_MIN && value <= BATTERY_CHECK_STATE_3_ADC_MAX){
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12 | GPIO_PIN_11 | GPIO_PIN_10,GPIO_PIN_RESET);
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,GPIO_PIN_SET);
+						
+						configurations->chekingBatteryState = 0;
 					}
 					else if(value > BATTERY_CHECK_STATE_4_ADC_MIN && value <= BATTERY_CHECK_STATE_4_ADC_MAX){
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12 | GPIO_PIN_11 | GPIO_PIN_10 | GPIO_PIN_9,GPIO_PIN_RESET);
+						
+						// new
+						configurations->chekingBatteryState = 2;
+						HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 					}
 				}
 				
