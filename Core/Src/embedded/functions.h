@@ -5,11 +5,6 @@
 typedef struct _ballonConfigurations{
 	
 	
-	//unsigned int timeCnt;
-	//unsigned char currentState;
-	//unsigned char modeState;
-	
-	
 	unsigned int timeCntModeBtn;
 	unsigned int activatingSOI;
 	unsigned int isModeRunning;
@@ -17,6 +12,8 @@ typedef struct _ballonConfigurations{
 	unsigned int timeSOI;
 	
 	unsigned int activatingTime;
+	unsigned int breakingTime;
+	unsigned int breakingCount;
 	
 	unsigned char currentModeNo;
 	

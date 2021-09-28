@@ -13,6 +13,9 @@ void switchPowerOn(ballonConfigurations* configurations){
 		configurations->timeSOI = 0;
 	
 		configurations->activatingTime = 0;
+		configurations->breakingTime = 0;
+		configurations->breakingCount = 0;
+
 	
 		configurations->currentModeNo = 0;
 	
@@ -45,11 +48,11 @@ void runDevice(ballonConfigurations* configurations, unsigned char modeState, AD
 
 	
 			
-    //checking Battery
-		checkBattery(hadc, configurations);
-	
-		//current mode display
-		modeDisplay(modeState, configurations);
+	//checking Battery
+	checkBattery(hadc, configurations);
+
+	//current mode display
+	modeDisplay(modeState, configurations);
 	
     // checking Mode Button
     if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4) == 0) configurations->timeCntModeBtn++;
@@ -80,7 +83,7 @@ void runDevice(ballonConfigurations* configurations, unsigned char modeState, AD
 
 void runAOI(ballonConfigurations* configurations){
 	
-	//static unsigned int timeSOI = 0;
+	
 	if(configurations->timeSOI == 0){
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET);
 	}
@@ -88,7 +91,6 @@ void runAOI(ballonConfigurations* configurations){
 	if(configurations->timeSOI == FRAME_RUN_AOI_FUNC){
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 		configurations->activatingSOI = 0;
-		//configurations->isModeRunning = 0;
 		configurations->timeSOI = 0;
 	}
 }
@@ -109,7 +111,6 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 								
 								configurations->activatingTime = 0;
-								//configurations->timeCntModeBtn = 0;
 								configurations->activatingSOI = 1;
 								configurations->isModeRunning = 0;
 							}
@@ -123,7 +124,6 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 							if(configurations->activatingTime >= MODE_2_FRAME){
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 								configurations->activatingTime = 0;
-								//configurations->timeCntModeBtn = 0;
 								configurations->activatingSOI = 1;
 								configurations->isModeRunning = 0;
 							}
@@ -137,12 +137,212 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 							if(configurations->activatingTime >= MODE_3_FRAME){
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 								configurations->activatingTime = 0;
-								//configurations->timeCntModeBtn = 0;
 								configurations->activatingSOI = 1;
 								configurations->isModeRunning = 0;
 							}
 							
 							break;
+							
+					case MODE_4:
+
+							// 모터 동작 ! 
+							if(configurations->activatingTime == 0){
+								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_SET);
+							}
+							if(configurations->activatingTime < MODE_4_FRAME) configurations->activatingTime++;
+
+							// 모터 동작 휴식
+							if(configurations->activatingTime >= MODE_4_FRAME && configurations->breakingTime < MODE_4_BREAKING_FRAME){
+								
+								// mode 4의 경우 총 3번쉬어야 하기 때문에 3번이 아니면 breaking Time 동안 쉬기
+								if(configurations->breakingCount <= MODE_4_BREAKING_COUNT){
+									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+									configurations->breakingTime++;
+								}
+							}
+							// 쉬는 시간이 끝나면 쉬는시간 리셋, 카운트 +1, 모터 동작시간 리셋
+							if(configurations->breakingTime >= MODE_4_BREAKING_FRAME){
+								configurations->breakingCount++;
+								configurations->breakingTime = 0;
+								configurations->activatingTime = 0;
+							}
+
+							// 모터 동작시간이 꽉찼는데, 쉰 횟수또한 조건을 만족했다면 동작 루틴 스탑
+							if(configurations->activatingTime >= MODE_4_FRAME && configurations->breakingCount > MODE_4_BREAKING_COUNT ){
+								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+								configurations->activatingTime = 0;
+								configurations->activatingSOI = 1;
+								configurations->isModeRunning = 0;
+								configurations->breakingCount = 0;
+							}
+							break;	
+
+					case MODE_5:
+							// 모터 동작 ! 
+							if(configurations->activatingTime == 0){
+								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_SET);
+							}
+							if(configurations->activatingTime < MODE_5_FRAME) configurations->activatingTime++;
+
+							// 모터 동작 휴식
+							if(configurations->activatingTime >= MODE_5_FRAME && configurations->breakingTime < MODE_5_BREAKING_FRAME){
+								
+								// mode 4의 경우 총 3번쉬어야 하기 때문에 3번이 아니면 breaking Time 동안 쉬기
+								if(configurations->breakingCount <= MODE_5_BREAKING_COUNT){
+									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+									configurations->breakingTime++;
+								}
+							}
+							// 쉬는 시간이 끝나면 쉬는시간 리셋, 카운트 +1, 모터 동작시간 리셋
+							if(configurations->breakingTime >= MODE_5_BREAKING_FRAME){
+								configurations->breakingCount++;
+								configurations->breakingTime = 0;
+								configurations->activatingTime = 0;
+							}
+
+							// 모터 동작시간이 꽉찼는데, 쉰 횟수또한 조건을 만족했다면 동작 루틴 스탑
+							if(configurations->activatingTime >= MODE_5_FRAME && configurations->breakingCount > MODE_5_BREAKING_COUNT ){
+								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+								configurations->activatingTime = 0;
+								configurations->activatingSOI = 1;
+								configurations->isModeRunning = 0;
+								configurations->breakingCount = 0;
+							}
+							break;		
+					case MODE_6:
+							// 모터 동작 ! 
+							if(configurations->activatingTime == 0){
+								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_SET);
+							}
+							if(configurations->activatingTime < MODE_6_FRAME) configurations->activatingTime++;
+
+							// 모터 동작 휴식
+							if(configurations->activatingTime >= MODE_6_FRAME && configurations->breakingTime < MODE_6_BREAKING_FRAME){
+								
+								// mode 4의 경우 총 3번쉬어야 하기 때문에 3번이 아니면 breaking Time 동안 쉬기
+								if(configurations->breakingCount <= MODE_6_BREAKING_COUNT){
+									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+									configurations->breakingTime++;
+								}
+							}
+							// 쉬는 시간이 끝나면 쉬는시간 리셋, 카운트 +1, 모터 동작시간 리셋
+							if(configurations->breakingTime >= MODE_6_BREAKING_FRAME){
+								configurations->breakingCount++;
+								configurations->breakingTime = 0;
+								configurations->activatingTime = 0;
+							}
+
+							// 모터 동작시간이 꽉찼는데, 쉰 횟수또한 조건을 만족했다면 동작 루틴 스탑
+							if(configurations->activatingTime >= MODE_6_FRAME && configurations->breakingCount > MODE_6_BREAKING_COUNT ){
+								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+								configurations->activatingTime = 0;
+								configurations->activatingSOI = 1;
+								configurations->isModeRunning = 0;
+								configurations->breakingCount = 0;
+							}
+							break;	
+					case MODE_7:
+							// mode 7부터는 반복기능이 필요함 !! 
+							// 모터 동작 ! 
+							if(configurations->activatingTime == 0){
+								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_SET);
+							}
+							if(configurations->activatingTime < MODE_7_FRAME) configurations->activatingTime++;
+
+							// 모터 동작 휴식
+							if(configurations->activatingTime >= MODE_7_FRAME && configurations->breakingTime < MODE_7_BREAKING_FRAME){
+								
+								// mode 7의 경우, 1초동작, 1초휴식이 무한 반복이다 
+								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+								configurations->breakingTime++;
+							}
+							
+							// 모드 7에서는 무한반복이므로 솔레노이드를 돌릴필요가 없다. 계속 무한 반복이다.
+							if(configurations->breakingTime >= MODE_7_BREAKING_FRAME){
+								configurations->breakingTime = 0;
+								configurations->activatingTime = 0;
+							}
+
+							
+							break;
+
+					case MODE_8:
+							// mode 8은 휴식시간이 각각 다름.
+							// 모터 동작 ! 
+							if(configurations->activatingTime == 0){
+								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_SET);
+							}
+
+							if(configurations->breakingCount == 0){
+								if(configurations->activatingTime < MODE_8_1_FRAME) configurations->activatingTime++;
+
+								// 모터 동작 휴식
+								if(configurations->activatingTime >= MODE_8_1_FRAME && configurations->breakingTime < MODE_8_1_BREAKING_FRAME){
+									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+									configurations->breakingTime++;
+								}
+
+								if(configurations->breakingTime >= MODE_8_1_BREAKING_FRAME){
+									configurations->breakingCount++;
+									configurations->breakingTime = 0;
+									configurations->activatingTime = 0;
+								}
+							}
+							else if(configurations->breakingCount == 1){
+								if(configurations->activatingTime < MODE_8_2_FRAME) configurations->activatingTime++;
+
+								// 모터 동작 휴식
+								if(configurations->activatingTime >= MODE_8_2_FRAME && configurations->breakingTime < MODE_8_2_BREAKING_FRAME){
+									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+									configurations->breakingTime++;
+								}
+
+								if(configurations->breakingTime >= MODE_8_2_BREAKING_FRAME){
+									configurations->breakingCount++;
+									configurations->breakingTime = 0;
+									configurations->activatingTime = 0;
+								}
+							}
+							else{
+								if(configurations->activatingTime < MODE_8_3_FRAME) configurations->activatingTime++;
+
+								// 모터 동작 휴식
+								if(configurations->activatingTime >= MODE_8_3_FRAME && configurations->breakingTime < MODE_8_3_BREAKING_FRAME){
+									HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+									configurations->breakingTime++;
+								}
+
+								if(configurations->breakingTime >= MODE_8_3_BREAKING_FRAME){
+									configurations->breakingCount=0;
+									configurations->breakingTime = 0;
+									configurations->activatingTime = 0;
+								}
+							}
+
+							
+							break;
+					case MODE_9:
+							// mode 7부터는 반복기능이 필요함 !! 
+							// mode 9는 mode 7과 흡사
+							// 모터 동작 ! 
+							if(configurations->activatingTime == 0){
+								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_SET);
+							}
+							if(configurations->activatingTime < MODE_9_FRAME) configurations->activatingTime++;
+
+							// 모터 동작 휴식
+							if(configurations->activatingTime >= MODE_9_FRAME && configurations->breakingTime < MODE_9_BREAKING_FRAME){
+								
+								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+								configurations->breakingTime++;
+							}
+							
+							if(configurations->breakingTime >= MODE_9_BREAKING_FRAME){
+								configurations->breakingTime = 0;
+								configurations->activatingTime = 0;
+							}
+
+							break;																						
 					default:
 							break;            
 		}
@@ -170,6 +370,35 @@ void modeDisplay(unsigned char modeNo, ballonConfigurations* configurations){
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_3 | GPIO_PIN_7 | GPIO_PIN_6,GPIO_PIN_SET);
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_4 | GPIO_PIN_5 ,GPIO_PIN_RESET);
 				break;
+			case MODE_4:
+				// B, C, F, G --> 4
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8 | GPIO_PIN_7 | GPIO_PIN_4 | GPIO_PIN_3, GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_9  ,GPIO_PIN_RESET);
+				break;
+			case MODE_5:
+				// Aa, Ff, Gg, Cc, Dd --> 5
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_4 | GPIO_PIN_9 | GPIO_PIN_3 | GPIO_PIN_7 | GPIO_PIN_6,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8 | GPIO_PIN_5 ,GPIO_PIN_RESET);
+				break;
+			case MODE_6:
+				// F, G, C, D, E --> 6
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_3 | GPIO_PIN_7 | GPIO_PIN_6,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8 | GPIO_PIN_9 ,GPIO_PIN_RESET);
+				break;
+			case MODE_7:
+				// F, A, B, C --> 7
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_4 | GPIO_PIN_7 ,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_3 | GPIO_PIN_5 | GPIO_PIN_6,GPIO_PIN_RESET);
+				break;
+			case MODE_8:
+				// A, B, C, D, E, F, G --> 8
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_3 | GPIO_PIN_7 | GPIO_PIN_6 | GPIO_PIN_4 | GPIO_PIN_5,GPIO_PIN_SET);
+				break;
+			case MODE_9:
+				// A, B, C, G, F --> 9
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_3 | GPIO_PIN_7 | GPIO_PIN_4,GPIO_PIN_SET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_6 | GPIO_PIN_5 ,GPIO_PIN_RESET);
+				break;
 			default:
 				break;
 			
@@ -190,6 +419,24 @@ void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
 				*modeState = MODE_3;
 				break;
 			case MODE_3:
+				*modeState = MODE_4;
+				break;
+			case MODE_4:
+				*modeState = MODE_5;
+				break;
+			case MODE_5:
+				*modeState = MODE_6;
+				break;
+			case MODE_6:
+				*modeState = MODE_7;
+				break;
+			case MODE_7:
+				*modeState = MODE_8;
+				break;
+			case MODE_8:
+				*modeState = MODE_9;
+				break;
+			case MODE_9:
 				*modeState = MODE_1;
 				break;
 			default:
