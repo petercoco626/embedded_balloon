@@ -231,7 +231,7 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 							}
 
 							// 모터 동작시간이 꽉찼는데, 쉰 횟수또한 조건을 만족했다면 동작 루틴 스탑
-							if(configurations->activatingTime >= MODE_5_FRAME && configurations->breakingCount >= MODE_5_BREAKING_COUNT ){
+							if(configurations->breakingCount >= MODE_5_BREAKING_COUNT ){
 								
 								configurations->activatingTime = 0;
 								configurations->activatingSOI = 1;
@@ -267,7 +267,7 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 							}
 
 							// 모터 동작시간이 꽉찼는데, 쉰 횟수또한 조건을 만족했다면 동작 루틴 스탑
-							if(configurations->activatingTime >= MODE_6_FRAME && configurations->breakingCount >= MODE_6_BREAKING_COUNT ){
+							if(configurations->breakingCount >= MODE_6_BREAKING_COUNT ){
 								
 								configurations->activatingTime = 0;
 								configurations->activatingSOI = 1;
@@ -497,7 +497,7 @@ void checkBattery(ADC_HandleTypeDef* hadc, ballonConfigurations* configurations)
 		
 			if(configurations->chekingBatteryState == 0){
 				if(configurations->chekingBatteryStateOnTime == 0){
-					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_SET);
+					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_SET);
 				}
 				configurations->chekingBatteryStateOnTime++;
 				
@@ -508,7 +508,7 @@ void checkBattery(ADC_HandleTypeDef* hadc, ballonConfigurations* configurations)
 			}
 			else{
 				if(configurations->chekingBatteryStateOffTime == 0){
-					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_RESET);
 				}
 				configurations->chekingBatteryStateOffTime++;
 				
@@ -548,7 +548,7 @@ void checkBattery(ADC_HandleTypeDef* hadc, ballonConfigurations* configurations)
 						
 						// new
 						configurations->chekingBatteryState = 2;
-						HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
+						HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_RESET);
 					}
 				}
 				
