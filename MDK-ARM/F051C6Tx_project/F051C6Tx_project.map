@@ -47,9 +47,9 @@ Section Cross References
     balloonmachine.o(i.balloonMachine) refers to stm32f0xx_hal_gpio.o(i.HAL_GPIO_ReadPin) for HAL_GPIO_ReadPin
     balloonmachine.o(i.balloonMachine) refers to functions.o(i.switchPowerOff) for switchPowerOff
     balloonmachine.o(i.balloonMachine) refers to functions.o(i.switchPowerOn) for switchPowerOn
+    balloonmachine.o(i.balloonMachine) refers to functions.o(i.checkBattery) for checkBattery
     balloonmachine.o(i.balloonMachine) refers to functions.o(i.switchMode) for switchMode
     balloonmachine.o(i.balloonMachine) refers to functions.o(i.runDevice) for runDevice
-    balloonmachine.o(i.balloonMachine) refers to functions.o(i.checkBattery) for checkBattery
     balloonmachine.o(i.balloonMachine) refers to balloonmachine.o(.data) for .data
     balloonmachine.o(i.balloonMachine) refers to balloonmachine.o(.bss) for .bss
     balloonmachine.o(i.resetDeviceOnVoltage) refers to stm32f0xx_hal_gpio.o(i.HAL_GPIO_WritePin) for HAL_GPIO_WritePin

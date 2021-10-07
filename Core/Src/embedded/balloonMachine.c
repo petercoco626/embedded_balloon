@@ -40,13 +40,13 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
         }
         
 				timeCnt = 0;
-				
+				checkBattery(hadc, &configurations);
 				switch(currentState){
 					case POWER_OFF_STATE:
 							break;
 					case POWER_ON_STATE:
 							runDevice(&configurations, modeState, hadc);
-							checkBattery(hadc, &configurations);
+							
 							break;
 					case MODE_SWITCH_STATE:
 							switchMode(&modeState, &configurations);
