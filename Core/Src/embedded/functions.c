@@ -50,7 +50,7 @@ void runDevice(ballonConfigurations* configurations, unsigned char modeState, AD
 	
 			
 	//checking Battery
-	checkBattery(hadc, configurations);
+	//checkBattery(hadc, configurations);
 
 	//current mode display
 	modeDisplay(modeState, configurations);
