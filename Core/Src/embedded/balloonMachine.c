@@ -12,6 +12,8 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 
 
 
+		// check battery
+		checkBattery(hadc, &configurations);
 
     // Check Power ON or Off
     // power on
@@ -40,7 +42,7 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
         }
         
 				timeCnt = 0;
-				checkBattery(hadc, &configurations);
+				
 				switch(currentState){
 					case POWER_OFF_STATE:
 							break;

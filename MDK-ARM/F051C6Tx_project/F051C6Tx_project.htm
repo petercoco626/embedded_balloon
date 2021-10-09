@@ -3,7 +3,7 @@
 <title>Static Call Graph - [F051C6Tx_project\F051C6Tx_project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image F051C6Tx_project\F051C6Tx_project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Oct 07 22:04:46 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Sat Oct 09 12:47:27 2021
 <BR><P>
 <H3>Maximum Stack Usage =        176 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -400,7 +400,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6d]"></a>HAL_ADC_GetValue</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f0xx_hal_adc.o(i.HAL_ADC_GetValue))
-<BR><BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
+<BR><BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
 </UL>
 
 <P><STRONG><a name="[49]"></a>HAL_ADC_Init</STRONG> (Thumb, 366 bytes, Stack size 24 bytes, stm32f0xx_hal_adc.o(i.HAL_ADC_Init))
@@ -425,7 +425,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
+<BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
 </UL>
 
 <P><STRONG><a name="[4e]"></a>HAL_ADC_Start</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, stm32f0xx_hal_adc.o(i.HAL_ADC_Start))
@@ -433,7 +433,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Enable
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
+<BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
 </UL>
 
 <P><STRONG><a name="[4f]"></a>HAL_ADC_Stop</STRONG> (Thumb, 62 bytes, Stack size 16 bytes, stm32f0xx_hal_adc.o(i.HAL_ADC_Stop))
@@ -442,7 +442,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_Disable
 <LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_ConversionStop
 </UL>
-<BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
+<BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
 </UL>
 
 <P><STRONG><a name="[4c]"></a>HAL_GPIO_Init</STRONG> (Thumb, 344 bytes, Stack size 28 bytes, stm32f0xx_hal_gpio.o(i.HAL_GPIO_Init))
@@ -452,7 +452,7 @@ Global Symbols
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 </UL>
 
-<P><STRONG><a name="[67]"></a>HAL_GPIO_ReadPin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f0xx_hal_gpio.o(i.HAL_GPIO_ReadPin))
+<P><STRONG><a name="[68]"></a>HAL_GPIO_ReadPin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f0xx_hal_gpio.o(i.HAL_GPIO_ReadPin))
 <BR><BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runDevice
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;balloonMachine
 </UL>
@@ -461,9 +461,9 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runMode
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runAOI
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modeDisplay
-<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switchPowerOn
-<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switchPowerOff
-<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
+<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switchPowerOn
+<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switchPowerOff
+<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;resetDeviceOnVoltage
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 </UL>
@@ -645,20 +645,20 @@ Global Symbols
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switchMode
 </UL>
 
-<P><STRONG><a name="[66]"></a>balloonMachine</STRONG> (Thumb, 140 bytes, Stack size 24 bytes, balloonmachine.o(i.balloonMachine))
+<P><STRONG><a name="[66]"></a>balloonMachine</STRONG> (Thumb, 138 bytes, Stack size 24 bytes, balloonmachine.o(i.balloonMachine))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = balloonMachine &rArr; checkBattery &rArr; HAL_ADC_Stop &rArr; ADC_Disable
 </UL>
-<BR>[Calls]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switchPowerOn
-<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switchPowerOff
+<BR>[Calls]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switchPowerOn
+<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switchPowerOff
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;switchMode
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runDevice
-<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
-<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
+<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkBattery
+<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[6a]"></a>checkBattery</STRONG> (Thumb, 284 bytes, Stack size 32 bytes, functions.o(i.checkBattery))
+<P><STRONG><a name="[67]"></a>checkBattery</STRONG> (Thumb, 284 bytes, Stack size 32 bytes, functions.o(i.checkBattery))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = checkBattery &rArr; HAL_ADC_Stop &rArr; ADC_Disable
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_Stop
@@ -713,7 +713,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runMode
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runAOI
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modeDisplay
-<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
+<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;balloonMachine
 </UL>
@@ -735,7 +735,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;balloonMachine
 </UL>
 
-<P><STRONG><a name="[68]"></a>switchPowerOff</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, functions.o(i.switchPowerOff))
+<P><STRONG><a name="[69]"></a>switchPowerOff</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, functions.o(i.switchPowerOff))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = switchPowerOff
 </UL>
 <BR>[Calls]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -743,7 +743,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;balloonMachine
 </UL>
 
-<P><STRONG><a name="[69]"></a>switchPowerOn</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, functions.o(i.switchPowerOn))
+<P><STRONG><a name="[6a]"></a>switchPowerOn</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, functions.o(i.switchPowerOn))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = switchPowerOn
 </UL>
 <BR>[Calls]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
