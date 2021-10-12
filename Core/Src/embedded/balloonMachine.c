@@ -6,13 +6,22 @@ ballonConfigurations configurations;
 unsigned int timeCnt = 0;
 unsigned char currentState = POWER_OFF_STATE;
 unsigned char modeState = MODE_1;
-
+unsigned char batteryConfig = 0;
 
 void balloonMachine(ADC_HandleTypeDef* hadc){
 
 
 
 		// check battery
+	
+		if(batteryConfig == 0){
+			configurations.compareBattery = 0;
+			configurations.chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
+			configurations.chekingBatteryState = 0;
+			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_SET);
+			batteryConfig = 1;
+		}
+		
 		checkBattery(hadc, &configurations);
 
     // Check Power ON or Off

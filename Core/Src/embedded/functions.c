@@ -20,11 +20,9 @@ void switchPowerOn(ballonConfigurations* configurations){
 	
 		configurations->currentModeNo = 0;
 	
-		configurations->compareBattery = 0;
-		configurations->chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
-	
+
 		
-		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_SET);
+		//HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_SET);
     
 }
 
@@ -38,10 +36,10 @@ void switchPowerOff(void){
 						| GPIO_PIN_8 | GPIO_PIN_9,GPIO_PIN_RESET);
     // led off
 		//HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_RESET);
+		//HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_RESET);
 	
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10 
-						| GPIO_PIN_11 | GPIO_PIN_12,GPIO_PIN_SET);
+    //HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10 
+		//				| GPIO_PIN_11 | GPIO_PIN_12,GPIO_PIN_SET);
 
 }
 
