@@ -1,7 +1,7 @@
 Dependencies for Project 'F051C6Tx_project', Target 'F051C6Tx_project': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
 F (startup_stm32f051x8.s)(0x6150F064)(--cpu Cortex-M0 -g --apcs=interwork -I.\RTE\_F051C6Tx_project-IC:\Users\coco\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\coco\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include--pd "__UVISION_VERSION SETA 535" --pd "_RTE_ SETA 1" --pd "STM32F051x8 SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f051x8.lst --xref -o f051c6tx_project\startup_stm32f051x8.o --depend f051c6tx_project\startup_stm32f051x8.d)
-F (../Core/Src/main.c)(0x6152D55D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_F051C6Tx_project-IC:\Users\coco\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\coco\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F051x8 -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F051x8-o f051c6tx_project\main.o --omf_browse f051c6tx_project\main.crf --depend f051c6tx_project\main.d)
+F (../Core/Src/main.c)(0x616A78BB)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_F051C6Tx_project-IC:\Users\coco\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\coco\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F051x8 -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F051x8-o f051c6tx_project\main.o --omf_browse f051c6tx_project\main.crf --depend f051c6tx_project\main.d)
 I (../Core/Inc/main.h)(0x6152D4D8)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x60F87A62)
 I (../Core/Inc/stm32f0xx_hal_conf.h)(0x6152D4D8)
@@ -33,7 +33,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h)(0x60F87A62)
 I (../Core/Src/./embedded/balloonMachine.h)(0x6150F063)
-I (../Core/Src/./embedded/settings.h)(0x61556D46)
+I (../Core/Src/./embedded/settings.h)(0x62D92DCC)
 F (../Core/Src/stm32f0xx_it.c)(0x6152D4D8)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_F051C6Tx_project-IC:\Users\coco\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\coco\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F051x8 -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F051x8-o f051c6tx_project\stm32f0xx_it.o --omf_browse f051c6tx_project\stm32f0xx_it.crf --depend f051c6tx_project\stm32f0xx_it.d)
 I (../Core/Inc/main.h)(0x6152D4D8)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x60F87A62)
@@ -97,7 +97,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h)(0x60F87A62)
-F (..\Core\Src\embedded\balloonMachine.c)(0x6165A125)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_F051C6Tx_project-IC:\Users\coco\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\coco\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F051x8 -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F051x8-o f051c6tx_project\balloonmachine.o --omf_browse f051c6tx_project\balloonmachine.crf --depend f051c6tx_project\balloonmachine.d)
+F (..\Core\Src\embedded\balloonMachine.c)(0x63BA257D)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_F051C6Tx_project-IC:\Users\coco\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\coco\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F051x8 -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F051x8-o f051c6tx_project\balloonmachine.o --omf_browse f051c6tx_project\balloonmachine.crf --depend f051c6tx_project\balloonmachine.d)
 I (..\Core\Src\embedded\balloonMachine.h)(0x6150F063)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x60F87A62)
 I (../Core/Inc/stm32f0xx_hal_conf.h)(0x6152D4D8)
@@ -128,10 +128,10 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h)(0x60F87A62)
-I (..\Core\Src\embedded\settings.h)(0x61556D46)
-I (..\Core\Src\embedded\functions.h)(0x6152D9A3)
-F (..\Core\Src\embedded\functions.c)(0x6165A128)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_F051C6Tx_project-IC:\Users\coco\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\coco\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F051x8 -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F051x8-o f051c6tx_project\functions.o --omf_browse f051c6tx_project\functions.crf --depend f051c6tx_project\functions.d)
-I (..\Core\Src\embedded\functions.h)(0x6152D9A3)
+I (..\Core\Src\embedded\settings.h)(0x62D92DCC)
+I (..\Core\Src\embedded\functions.h)(0x62D92DD0)
+F (..\Core\Src\embedded\functions.c)(0x63BA265E)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_F051C6Tx_project-IC:\Users\coco\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\coco\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F051x8 -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F051x8-o f051c6tx_project\functions.o --omf_browse f051c6tx_project\functions.crf --depend f051c6tx_project\functions.d)
+I (..\Core\Src\embedded\functions.h)(0x62D92DD0)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x60F87A62)
 I (../Core/Inc/stm32f0xx_hal_conf.h)(0x6152D4D8)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h)(0x60F87A62)
@@ -161,7 +161,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h)(0x60F87A62)
-I (..\Core\Src\embedded\settings.h)(0x61556D46)
+I (..\Core\Src\embedded\settings.h)(0x62D92DCC)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_adc.c)(0x60F87A62)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_F051C6Tx_project-IC:\Users\coco\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\coco\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F051x8 -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F051x8-o f051c6tx_project\stm32f0xx_hal_adc.o --omf_browse f051c6tx_project\stm32f0xx_hal_adc.crf --depend f051c6tx_project\stm32f0xx_hal_adc.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x60F87A62)
 I (../Core/Inc/stm32f0xx_hal_conf.h)(0x6152D4D8)
@@ -523,7 +523,7 @@ I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h)(0x60F87A62)
 I (../Drivers/STM32F0xx_HAL_Driver/Src/../../../Core/src/embedded/balloonMachine.h)(0x6150F063)
-I (../Drivers/STM32F0xx_HAL_Driver/Src/../../../Core/src/embedded/settings.h)(0x61556D46)
+I (../Drivers/STM32F0xx_HAL_Driver/Src/../../../Core/src/embedded/settings.h)(0x62D92DCC)
 F (../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.c)(0x60F87A62)(--c99 -c --cpu Cortex-M0 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc -I ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_F051C6Tx_project-IC:\Users\coco\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include-IC:\Users\coco\AppData\Local\Arm\Packs\Keil\STM32F0xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F0xx\Include-D__UVISION_VERSION="535" -D_RTE_ -DSTM32F051x8 -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F051x8-o f051c6tx_project\stm32f0xx_hal_flash.o --omf_browse f051c6tx_project\stm32f0xx_hal_flash.crf --depend f051c6tx_project\stm32f0xx_hal_flash.d)
 I (../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h)(0x60F87A62)
 I (../Core/Inc/stm32f0xx_hal_conf.h)(0x6152D4D8)

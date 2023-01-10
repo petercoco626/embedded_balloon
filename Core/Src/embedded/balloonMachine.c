@@ -5,7 +5,7 @@ ballonConfigurations configurations;
 
 unsigned int timeCnt = 0;
 unsigned char currentState = POWER_OFF_STATE;
-unsigned char modeState = MODE_1;
+unsigned char modeState = MODE_0;
 unsigned char batteryConfig = 0;
 
 void balloonMachine(ADC_HandleTypeDef* hadc){
@@ -15,14 +15,14 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 		// check battery
 	
 		if(batteryConfig == 0){
-			configurations.compareBattery = 0;
-			configurations.chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
+
 			configurations.chekingBatteryState = 0;
-			HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_SET);
+			configurations.chekingBatteryStateOnTime = 0;
+			configurations.chekingBatteryStateOffTime = 0;
 			batteryConfig = 1;
 		}
 		
-		checkBattery(hadc, &configurations);
+		checkBattery(&configurations);
 
     // Check Power ON or Off
     // power on
@@ -32,9 +32,9 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 					
 						switch(currentState){
 							case POWER_ON_STATE:
-								switchPowerOff();						
-								modeState = MODE_1;
-                currentState = POWER_OFF_STATE;								
+									modeState = MODE_0;
+									currentState = POWER_OFF_STATE;
+									configurations.activatingSOI = 1;
 								break;
 							case POWER_OFF_STATE:
 								switchPowerOn(&configurations);
@@ -54,6 +54,13 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 				
 				switch(currentState){
 					case POWER_OFF_STATE:
+								if(configurations.activatingSOI == 1){
+									runAOI(&configurations);
+								}
+								if(configurations.activatingSOI == 0){
+									switchPowerOff();
+								}	
+					
 							break;
 					case POWER_ON_STATE:
 							runDevice(&configurations, modeState, hadc);
@@ -93,12 +100,17 @@ void resetDeviceOnVoltage(void){
 		configurations.compareBattery = 0;
 		configurations.chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
 	
+		configurations.chekingBatteryStateOnTime = 0;
+		configurations.chekingBatteryStateOffTime = 0;
+		configurations.chekingBatteryState = 0;
+	
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
 		
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7
 					| GPIO_PIN_8 | GPIO_PIN_9, GPIO_PIN_RESET);
 		
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET);
 
 		/*Configure GPIO pin Output Level */
 		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_11
