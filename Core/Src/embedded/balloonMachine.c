@@ -85,7 +85,7 @@ void resetDeviceOnVoltage(void){
 	
 		timeCnt = 0;
 		currentState = POWER_OFF_STATE;
-		modeState = MODE_1;
+		modeState = MODE_0;
 	
 		configurations.timeCntModeBtn = 0;
 		configurations.activatingSOI = 0;
