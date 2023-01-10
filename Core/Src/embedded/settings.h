@@ -10,7 +10,7 @@
 #define FPS_MODE_CLOCK 								175000
 
 // MODE STATE CONFIGURATION
-#define MODE_0  0
+#define MODE_0  10
 #define MODE_1  1
 #define MODE_2  2
 #define MODE_3  3
