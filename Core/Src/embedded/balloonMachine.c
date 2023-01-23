@@ -5,24 +5,24 @@ ballonConfigurations configurations;
 
 unsigned int timeCnt = 0;
 unsigned char currentState = POWER_OFF_STATE;
-unsigned char modeState = MODE_0;
+unsigned char modeState = MODE_1;
 unsigned char batteryConfig = 0;
 
 void balloonMachine(ADC_HandleTypeDef* hadc){
 
 
 
-		// check battery
-	
-		if(batteryConfig == 0){
+	// check battery
 
-			configurations.chekingBatteryState = 0;
-			configurations.chekingBatteryStateOnTime = 0;
-			configurations.chekingBatteryStateOffTime = 0;
-			batteryConfig = 1;
-		}
-		
-		checkBattery(&configurations);
+	if(batteryConfig == 0){
+
+		configurations.chekingBatteryState = 0;
+		configurations.chekingBatteryStateOnTime = 0;
+		configurations.chekingBatteryStateOffTime = 0;
+		batteryConfig = 1;
+	}
+	
+	checkBattery(&configurations);
 
     // Check Power ON or Off
     // power on
@@ -30,49 +30,51 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
     else{
         if(timeCnt >= FRAME_POWER_BUTTON_TOGGLE){
 					
-						switch(currentState){
-							case POWER_ON_STATE:
-									modeState = MODE_0;
-									currentState = POWER_OFF_STATE;
-									configurations.activatingSOI = 1;
-								break;
-							case POWER_OFF_STATE:
-								switchPowerOn(&configurations);
-                currentState = POWER_ON_STATE;
-								break;
-							default:
-								break;
+			switch(currentState){
+				case POWER_ON_STATE:
+						if(modeState == MODE_5 || modeState == MODE_6){
+							configurations.activatingSOI = 1;
 						}
+						modeState = MODE_1;
+						currentState = POWER_OFF_STATE;
+					break;
+				case POWER_OFF_STATE:
+					switchPowerOn(&configurations);
+					currentState = POWER_ON_STATE;
+					break;
+				default:
+					break;
+			}
 
             
         }
         else if (timeCnt > 0 && timeCnt < FRAME_MODE_BUTTON_SWITCH){
-						if(currentState == POWER_ON_STATE) currentState = MODE_SWITCH_STATE;
+			if(currentState == POWER_ON_STATE) currentState = MODE_SWITCH_STATE;
         }
         
-				timeCnt = 0;
+			timeCnt = 0;
+			
+			switch(currentState){
+				case POWER_OFF_STATE:
+						if(configurations.activatingSOI == 1){
+							runAOI(&configurations);
+						}
+						if(configurations.activatingSOI == 0){
+							switchPowerOff();
+						}	
 				
-				switch(currentState){
-					case POWER_OFF_STATE:
-								if(configurations.activatingSOI == 1){
-									runAOI(&configurations);
-								}
-								if(configurations.activatingSOI == 0){
-									switchPowerOff();
-								}	
-					
-							break;
-					case POWER_ON_STATE:
-							runDevice(&configurations, modeState, hadc);
-							
-							break;
-					case MODE_SWITCH_STATE:
-							switchMode(&modeState, &configurations);
-							currentState = POWER_ON_STATE;
-							break;
-					default:
-							break;
-				}
+						break;
+				case POWER_ON_STATE:
+						runDevice(&configurations, modeState, hadc);
+						
+						break;
+				case MODE_SWITCH_STATE:
+						switchMode(&modeState, &configurations);
+						currentState = POWER_ON_STATE;
+						break;
+				default:
+						break;
+			}
         
     }
   
@@ -85,7 +87,7 @@ void resetDeviceOnVoltage(void){
 	
 		timeCnt = 0;
 		currentState = POWER_OFF_STATE;
-		modeState = MODE_0;
+		modeState = MODE_1;
 	
 		configurations.timeCntModeBtn = 0;
 		configurations.activatingSOI = 0;

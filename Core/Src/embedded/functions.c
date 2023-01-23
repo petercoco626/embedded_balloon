@@ -5,27 +5,27 @@
 
 
 void switchPowerOn(ballonConfigurations* configurations){
-    
-		configurations->timeCntModeBtn = 0;
-		configurations->activatingSOI = 0;
-		configurations->isModeRunning = 0;
-	
-	
-		configurations->timeSOI = 0;
+
+	configurations->timeCntModeBtn = 0;
+	configurations->activatingSOI = 0;
+	configurations->isModeRunning = 0;
+
+
+	configurations->timeSOI = 0;
 	configurations->SOIDelaytime = 0;
-	
-		configurations->activatingTime = 0;
-		configurations->breakingTime = 0;
-		configurations->breakingCount = 0;
+
+	configurations->activatingTime = 0;
+	configurations->breakingTime = 0;
+	configurations->breakingCount = 0;
+
+
+	configurations->currentModeNo = 0;
+
+	configurations->compareBattery = 0;
+	configurations->chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
 
 	
-		configurations->currentModeNo = 0;
-	
-		configurations->compareBattery = 0;
-		configurations->chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
-
-		
-		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_SET);
     
 }
 
@@ -61,20 +61,25 @@ void runDevice(ballonConfigurations* configurations, unsigned char modeState, AD
     if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4) == 0) configurations->timeCntModeBtn++;
     else{
 				
+	
+		if( configurations->timeCntModeBtn > 0 && configurations->timeCntModeBtn < FRAME_RUN_MODE_FUNC) {
+			if(configurations->isModeRunning == 0){
+				configurations->isModeRunning = 1;
+			}					
+		}
+		else{
+			if(configurations->isModeRunning == 1){
+				runMode(modeState, configurations);
+			}
+
+			if(configurations->activatingSOI == 1){
+				runAOI(configurations);
+			}
+
+		}
 			
-				if( configurations->timeCntModeBtn > 0 && configurations->timeCntModeBtn < FRAME_RUN_MODE_FUNC) {
-					if(configurations->isModeRunning == 0){
-						configurations->isModeRunning = 1;
-					}					
-				}
-				else{
-					if(configurations->isModeRunning == 1){
-							runMode(modeState, configurations);
-					}
-				}
-					
-				
-				configurations->timeCntModeBtn = 0;
+		
+		configurations->timeCntModeBtn = 0;
 					
     }
 		
@@ -82,10 +87,10 @@ void runDevice(ballonConfigurations* configurations, unsigned char modeState, AD
 
 }
 
-void runAOI(ballonConfigurations* configurations){
+void runAOIOnModeUnder4(ballonConfigurations* configurations){
 	
 	
-	if(configurations->SOIDelaytime  <= SOI_DELAY_TIME_FRAME){
+	if(configurations->SOIDelaytime  < SOI_DELAY_TIME_FRAME_ON_MODE_UNDER_4){
 		configurations->SOIDelaytime++;
 		return;
 	}
@@ -94,7 +99,7 @@ void runAOI(ballonConfigurations* configurations){
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET);
 	}
 	configurations->timeSOI++;
-	if(configurations->timeSOI >= FRAME_RUN_AOI_FUNC){
+	if(configurations->timeSOI >= FRAME_RUN_AOI_FUNC_MODE_UNDER_4){
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
 		configurations->activatingSOI = 0;
 		configurations->timeSOI = 0;
@@ -102,20 +107,26 @@ void runAOI(ballonConfigurations* configurations){
 	}
 }
 
-
-void runOnlySixMode(unsigned int runningBtn, ballonConfigurations* configurations){
-
-							if(runningBtn == 1){
-								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_SET);
-							}
-							
-							if(runningBtn == 0){
-								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
-								configurations->activatingTime = 0;
-								configurations->isModeRunning = 0;
-							}
-							
+void runAOIOnModeOver5(ballonConfigurations* configurations){
+	
+	
+	if(configurations->SOIDelaytime  < SOI_DELAY_TIME_FRAME_ON_MODE_OVER_5){
+		configurations->SOIDelaytime++;
+		return;
+	}
+	
+	if(configurations->timeSOI == 0){
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET);
+	}
+	configurations->timeSOI++;
+	if(configurations->timeSOI >= FRAME_RUN_AOI_FUNC_MODE_OVER_5){
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
+		configurations->activatingSOI = 0;
+		configurations->timeSOI = 0;
+		configurations->SOIDelaytime = 0;
+	}
 }
+
 
 
 void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
@@ -148,6 +159,7 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								
 								configurations->activatingTime = 0;
 								configurations->isModeRunning = 0;
+								configurations->activatingSOI = 1;
 							}
 							
 							break;
@@ -160,6 +172,7 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 								configurations->activatingTime = 0;
 								configurations->isModeRunning = 0;
+								configurations->activatingSOI = 1;
 							}
 							
 							break;
@@ -172,6 +185,7 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 								configurations->activatingTime = 0;
 								configurations->isModeRunning = 0;
+								configurations->activatingSOI = 1;
 							}
 							
 							break;
@@ -186,6 +200,7 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 								configurations->activatingTime = 0;
 								configurations->isModeRunning = 0;
+								configurations->activatingSOI = 1;
 							}
 							
 							break;
@@ -324,9 +339,6 @@ void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
 	
 	if(configurations->isModeRunning == 0 && configurations->activatingSOI == 0){ 
 		switch(*modeState){
-			case MODE_0:
-				*modeState = MODE_1;
-				break;
 			case MODE_1:
 				*modeState = MODE_2;
 				break;
@@ -343,16 +355,7 @@ void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
 				*modeState = MODE_6;
 				break;
 			case MODE_6:
-				*modeState = MODE_7;
-				break;
-			case MODE_7:
-				*modeState = MODE_8;
-				break;
-			case MODE_8:
-				*modeState = MODE_9;
-				break;
-			case MODE_9:
-				*modeState = MODE_0;
+				*modeState = MODE_1;
 				break;
 			default:
 				break;
