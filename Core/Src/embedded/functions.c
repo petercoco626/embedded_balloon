@@ -7,12 +7,15 @@
 void switchPowerOn(ballonConfigurations* configurations){
 
 	configurations->timeCntModeBtn = 0;
-	configurations->activatingSOI = 0;
+	configurations->activatingSOI = 0; // under mode 4
+	configurations->activatingSOIOnModeOver5 = 0;
 	configurations->isModeRunning = 0;
 
 
-	configurations->timeSOI = 0;
-	configurations->SOIDelaytime = 0;
+	configurations->timeSOI = 0; // under mode 4
+	configurations->SOIDelaytime = 0; // under mode 4
+	configurations->timeSOIOnModeOver5 = 0;
+	configurations->SOIDelaytimeOnModeOver5 = 0;
 
 	configurations->activatingTime = 0;
 	configurations->breakingTime = 0;
@@ -73,7 +76,7 @@ void runDevice(ballonConfigurations* configurations, unsigned char modeState, AD
 			}
 
 			if(configurations->activatingSOI == 1){
-				runAOI(configurations);
+				runAOIOnModeUnder4(configurations);
 			}
 
 		}
@@ -110,20 +113,20 @@ void runAOIOnModeUnder4(ballonConfigurations* configurations){
 void runAOIOnModeOver5(ballonConfigurations* configurations){
 	
 	
-	if(configurations->SOIDelaytime  < SOI_DELAY_TIME_FRAME_ON_MODE_OVER_5){
-		configurations->SOIDelaytime++;
+	if(configurations->SOIDelaytimeOnModeOver5  < SOI_DELAY_TIME_FRAME_ON_MODE_OVER_5){
+		configurations->SOIDelaytimeOnModeOver5++;
 		return;
 	}
 	
-	if(configurations->timeSOI == 0){
+	if(configurations->timeSOIOnModeOver5 == 0){
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_SET);
 	}
-	configurations->timeSOI++;
-	if(configurations->timeSOI >= FRAME_RUN_AOI_FUNC_MODE_OVER_5){
+	configurations->timeSOIOnModeOver5++;
+	if(configurations->timeSOIOnModeOver5 >= FRAME_RUN_AOI_FUNC_MODE_OVER_5){
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_14,GPIO_PIN_RESET);
-		configurations->activatingSOI = 0;
-		configurations->timeSOI = 0;
-		configurations->SOIDelaytime = 0;
+		configurations->activatingSOIOnModeOver5 = 0;
+		configurations->timeSOIOnModeOver5 = 0;
+		configurations->SOIDelaytimeOnModeOver5 = 0;
 	}
 }
 

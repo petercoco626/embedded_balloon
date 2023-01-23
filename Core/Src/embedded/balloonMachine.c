@@ -32,11 +32,11 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 					
 			switch(currentState){
 				case POWER_ON_STATE:
-						if(modeState == MODE_5 || modeState == MODE_6){
-							configurations.activatingSOI = 1;
-						}
-						modeState = MODE_1;
-						currentState = POWER_OFF_STATE;
+					if(modeState == MODE_5 || modeState == MODE_6){
+						configurations.activatingSOIOnModeOver5 = 1;
+					}
+					
+					currentState = POWER_OFF_STATE;
 					break;
 				case POWER_OFF_STATE:
 					switchPowerOn(&configurations);
@@ -52,29 +52,37 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 			if(currentState == POWER_ON_STATE) currentState = MODE_SWITCH_STATE;
         }
         
-			timeCnt = 0;
-			
-			switch(currentState){
-				case POWER_OFF_STATE:
-						if(configurations.activatingSOI == 1){
-							runAOI(&configurations);
+		timeCnt = 0;
+		
+		switch(currentState){
+			case POWER_OFF_STATE:
+					if(modeState == MODE_5 || modeState == MODE_6){
+						if(configurations.activatingSOIOnModeOver5 == 1){
+							runAOIOnModeOver5(&configurations);
 						}
-						if(configurations.activatingSOI == 0){
+						if(configurations.activatingSOIOnModeOver5 == 0){
+							modeState = MODE_1;
 							switchPowerOff();
 						}	
-				
-						break;
-				case POWER_ON_STATE:
-						runDevice(&configurations, modeState, hadc);
-						
-						break;
-				case MODE_SWITCH_STATE:
-						switchMode(&modeState, &configurations);
-						currentState = POWER_ON_STATE;
-						break;
-				default:
-						break;
-			}
+					}
+					else{
+						modeState = MODE_1;
+						switchPowerOff();
+					}
+					
+			
+					break;
+			case POWER_ON_STATE:
+					runDevice(&configurations, modeState, hadc);
+					
+					break;
+			case MODE_SWITCH_STATE:
+					switchMode(&modeState, &configurations);
+					currentState = POWER_ON_STATE;
+					break;
+			default:
+					break;
+		}
         
     }
   
@@ -90,18 +98,23 @@ void resetDeviceOnVoltage(void){
 		modeState = MODE_1;
 	
 		configurations.timeCntModeBtn = 0;
-		configurations.activatingSOI = 0;
+		configurations.activatingSOI = 0; // under mode 4
+		configurations.activatingSOIOnModeOver5 = 0;
 		configurations.isModeRunning = 0;
 	
-		configurations.timeSOI = 0;
+		configurations.timeSOI = 0; // under mode 4
+		configurations.SOIDelaytime = 0; // under mode 4
+		configurations.timeSOIOnModeOver5 = 0;
+		configurations.SOIDelaytimeOnModeOver5 = 0;
 	
-		configurations.activatingTime = 0;
+		configurations.activatingTime = 0; // under mode 4
 	
 		configurations.currentModeNo = 0;
-	
+
 		configurations.compareBattery = 0;
 		configurations.chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
-	
+
+
 		configurations.chekingBatteryStateOnTime = 0;
 		configurations.chekingBatteryStateOffTime = 0;
 		configurations.chekingBatteryState = 0;
