@@ -5,7 +5,7 @@ ballonConfigurations configurations;
 
 unsigned int timeCnt = 0;
 unsigned char currentState = POWER_OFF_STATE;
-unsigned char modeState = MODE_1;
+unsigned char modeState = MODE_0;
 unsigned char batteryConfig = 0;
 
 void balloonMachine(ADC_HandleTypeDef* hadc){
@@ -61,12 +61,12 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 							runAOIOnModeOver5(&configurations);
 						}
 						if(configurations.activatingSOIOnModeOver5 == 0){
-							modeState = MODE_1;
+							modeState = MODE_0;
 							switchPowerOff();
 						}	
 					}
 					else{
-						modeState = MODE_1;
+						modeState = MODE_0;
 						switchPowerOff();
 					}
 					
@@ -95,7 +95,7 @@ void resetDeviceOnVoltage(void){
 	
 		timeCnt = 0;
 		currentState = POWER_OFF_STATE;
-		modeState = MODE_1;
+		modeState = MODE_0;
 	
 		configurations.timeCntModeBtn = 0;
 		configurations.activatingSOI = 0; // under mode 4

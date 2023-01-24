@@ -148,6 +148,7 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								
 								configurations->activatingTime = 0;
 								configurations->isModeRunning = 0;
+								configurations->activatingSOI = 1;
 							}
 							
 							break;
@@ -342,6 +343,9 @@ void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
 	
 	if(configurations->isModeRunning == 0 && configurations->activatingSOI == 0){ 
 		switch(*modeState){
+			case MODE_0:
+				*modeState = MODE_1;
+				break;
 			case MODE_1:
 				*modeState = MODE_2;
 				break;
@@ -358,7 +362,7 @@ void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
 				*modeState = MODE_6;
 				break;
 			case MODE_6:
-				*modeState = MODE_1;
+				*modeState = MODE_0;
 				break;
 			default:
 				break;
