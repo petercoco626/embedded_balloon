@@ -26,6 +26,8 @@ void switchPowerOn(ballonConfigurations* configurations){
 
 	configurations->compareBattery = 0;
 	configurations->chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
+  
+  configurations->checkingBatteryTimeForPin26 = CHECKING_BATTERY_FOR_PIN_26_TOGGLE_FRAME
 
 	
 	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_SET);
@@ -384,31 +386,42 @@ void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
 	}
 }
 
-void checkBattery(ballonConfigurations* configurations){
+void checkBattery(ballonConfigurations* configurations, ADC_HandleTypeDef* hadc){
 	
-			if(configurations->chekingBatteryState == 0){
-				if(configurations->chekingBatteryStateOnTime == 0){
-					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_SET);
-				}
-				configurations->chekingBatteryStateOnTime++;
-				
-				if( configurations->chekingBatteryStateOnTime >= PIN_26_POWER_ON_FRAME){
-					configurations->chekingBatteryStateOnTime = 0;
-					configurations->chekingBatteryState = 1;
-				}
-			}
-			else{
-				if(configurations->chekingBatteryStateOffTime == 0){
-					HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_RESET);
-				}
-				configurations->chekingBatteryStateOffTime++;
-				
-				if( configurations->chekingBatteryStateOffTime >= PIN_26_POWER_OFF_FRAME){
-					configurations->chekingBatteryStateOffTime = 0;
-					configurations->chekingBatteryState = 0;
-				}
-			}
+  if( configurations->checkingBatteryTimeForPin26 == CHECKING_BATTERY_FOR_PIN_26_TOGGLE_FRAME){
+      HAL_ADC_Start(hadc);
+      HAL_ADC_PollForConversion(hadc, HAL_MAX_DELAY);
+      unsigned int value = HAL_ADC_GetValue(hadc);
 
+      if(value < BATTERY_CHECK_FOR_PIN_26_TOGGLE){
+        if(configurations->chekingBatteryState == 0){
+          if(configurations->chekingBatteryStateOnTime == 0){
+            HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_SET);
+          }
+          configurations->chekingBatteryStateOnTime++;
+          
+          if( configurations->chekingBatteryStateOnTime >= PIN_26_POWER_ON_FRAME){
+            configurations->chekingBatteryStateOnTime = 0;
+            configurations->chekingBatteryState = 1;
+          }
+        }
+        else{
+          if(configurations->chekingBatteryStateOffTime == 0){
+            HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_RESET);
+          }
+          configurations->chekingBatteryStateOffTime++;
+          
+          if( configurations->chekingBatteryStateOffTime >= PIN_26_POWER_OFF_FRAME){
+            configurations->chekingBatteryStateOffTime = 0;
+            configurations->chekingBatteryState = 0;
+          }
+        }
+      }
+      HAL_ADC_Stop(hadc);
+
+  }
+  if( configurations->checkingBatteryTimeForPin26 > 0 ) configurations->checkingBatteryTimeForPin26 -= 1;
+  else configurations->checkingBatteryTimeForPin26 = CHECKING_BATTERY_FOR_PIN_26_TOGGLE_FRAME;
 
 }
 

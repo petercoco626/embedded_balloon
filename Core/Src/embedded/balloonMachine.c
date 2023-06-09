@@ -21,13 +21,8 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 		configurations.chekingBatteryStateOffTime = 0;
 		batteryConfig = 1;
 	}
-	if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0) == 1){
-    HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13 ,GPIO_PIN_RESET);
-  }
-  else{
-    checkBattery(&configurations);
-  }
 	
+  checkBattery(&configurations, hadc);
 
     // Check Power ON or Off
     // power on
@@ -118,6 +113,8 @@ void resetDeviceOnVoltage(void){
 
 		configurations.compareBattery = 0;
 		configurations.chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
+
+    configurations.checkingBatteryTimeForPin26 = CHECKING_BATTERY_FOR_PIN_26_TOGGLE_FRAME
 
 
 		configurations.chekingBatteryStateOnTime = 0;
