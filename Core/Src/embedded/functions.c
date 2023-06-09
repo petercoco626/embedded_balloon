@@ -61,20 +61,24 @@ void runDevice(ballonConfigurations* configurations, unsigned char modeState, AD
 
 	
     // checking Mode Button
-    if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4) == 0) configurations->timeCntModeBtn++;
+    if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4) == 0) {
+      if(configurations->activatingSOI == 0 && configurations->isModeRunning == 0){
+        configurations->timeCntModeBtn++;
+      }
+    }
     else{
-				
-	
+			
 		if( configurations->timeCntModeBtn > 0 && configurations->timeCntModeBtn < FRAME_RUN_MODE_FUNC) {
 			if(configurations->isModeRunning == 0){
 				configurations->isModeRunning = 1;
 			}					
 		}
 		else{
+      // motor should operate after finishing aoi
 			if(configurations->isModeRunning == 1){
 				runMode(modeState, configurations);
 			}
-
+      // aoi should operate after finishing motor
 			if(configurations->activatingSOI == 1){
 				runAOIOnModeUnder4(configurations);
 			}
@@ -395,6 +399,10 @@ void checkBattery(ballonConfigurations* configurations){
 					configurations->chekingBatteryState = 0;
 				}
 			}
+
+      if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4) == 1){
+        HAL_GPIO_WritePin(GPIOB,GPIO_PIN_26 ,GPIO_PIN_SET);
+      }
 }
 
 void checkBatteryLed(ADC_HandleTypeDef* hadc, ballonConfigurations* configurations){
@@ -410,20 +418,25 @@ void checkBatteryLed(ADC_HandleTypeDef* hadc, ballonConfigurations* configuratio
 					if(value > BATTERY_CHECK_STATE_1_ADC_MIN && value <= BATTERY_CHECK_STATE_1_ADC_MAX){
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_RESET);
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11,GPIO_PIN_SET);
+            HAL_GPIO_WritePin(GPIOB,GPIO_PIN_26 ,GPIO_PIN_RESET);	
 					}
 					else if(value > BATTERY_CHECK_STATE_2_ADC_MIN && value <= BATTERY_CHECK_STATE_2_ADC_MAX){
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12 | GPIO_PIN_11,GPIO_PIN_RESET);
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10,GPIO_PIN_SET);										
+            HAL_GPIO_WritePin(GPIOB,GPIO_PIN_26 ,GPIO_PIN_RESET);	
 					}
 					else if(value > BATTERY_CHECK_STATE_3_ADC_MIN && value <= BATTERY_CHECK_STATE_3_ADC_MAX){
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12 | GPIO_PIN_11 | GPIO_PIN_10,GPIO_PIN_RESET);
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,GPIO_PIN_SET);										
+            HAL_GPIO_WritePin(GPIOB,GPIO_PIN_26 ,GPIO_PIN_RESET);	
 					}
 					else if(value > BATTERY_CHECK_STATE_4_ADC_MIN && value <= BATTERY_CHECK_STATE_4_ADC_MAX){
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12 | GPIO_PIN_11 | GPIO_PIN_10 | GPIO_PIN_9,GPIO_PIN_RESET);					
+            HAL_GPIO_WritePin(GPIOB,GPIO_PIN_26 ,GPIO_PIN_SET);					
 					}
 					else{
 						HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12,GPIO_PIN_SET);
+            HAL_GPIO_WritePin(GPIOB,GPIO_PIN_26 ,GPIO_PIN_SET);					
 					}
 
 				}
