@@ -21,8 +21,13 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 		configurations.chekingBatteryStateOffTime = 0;
 		batteryConfig = 1;
 	}
+	if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4) == 1){
+    HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13 ,GPIO_PIN_RESET);
+  }
+  else{
+    checkBattery(&configurations);
+  }
 	
-	checkBattery(&configurations);
 
     // Check Power ON or Off
     // power on
