@@ -27,7 +27,7 @@ void switchPowerOn(ballonConfigurations* configurations){
 	configurations->compareBattery = 0;
 	configurations->chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
   
-  configurations->checkingBatteryTimeForPin26 = CHECKING_BATTERY_FOR_PIN_26_TOGGLE_FRAME
+  configurations->checkingBatteryTimeForPin26 = CHECKING_BATTERY_FOR_PIN_26_TOGGLE_FRAME;
 
 	
 	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_SET);
@@ -248,6 +248,7 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 								configurations->activatingTime = 0;
 								configurations->isModeRunning = 0;
+                configurations->activatingSOI = 1;
 							}
 							
 							break;
@@ -260,6 +261,7 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 								configurations->activatingTime = 0;
 								configurations->isModeRunning = 0;
+                configurations->activatingSOI = 1;
 							}
 							
 							break;
@@ -272,6 +274,7 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 								configurations->activatingTime = 0;
 								configurations->isModeRunning = 0;
+                configurations->activatingSOI = 1;
 							}
 							
 							break;				

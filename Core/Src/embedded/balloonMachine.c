@@ -114,7 +114,7 @@ void resetDeviceOnVoltage(void){
 		configurations.compareBattery = 0;
 		configurations.chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
 
-    configurations.checkingBatteryTimeForPin26 = CHECKING_BATTERY_FOR_PIN_26_TOGGLE_FRAME
+    configurations.checkingBatteryTimeForPin26 = CHECKING_BATTERY_FOR_PIN_26_TOGGLE_FRAME;
 
 
 		configurations.chekingBatteryStateOnTime = 0;
