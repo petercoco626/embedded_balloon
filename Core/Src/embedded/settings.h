@@ -21,6 +21,7 @@
 #define MODE_8  8
 #define MODE_9  9
 
+#define MAX_MODE MODE_9
 
 
 

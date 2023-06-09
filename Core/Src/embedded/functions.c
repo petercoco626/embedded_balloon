@@ -351,40 +351,54 @@ void modeDisplay(unsigned char modeNo, ballonConfigurations* configurations){
 void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
 	
 	if(configurations->isModeRunning == 0 && configurations->activatingSOI == 0){ 
-		switch(*modeState){
-			case MODE_0:
-				*modeState = MODE_1;
-				break;
-			case MODE_1:
-				*modeState = MODE_2;
-				break;
-			case MODE_2:
-				*modeState = MODE_3;
-				break;
-			case MODE_3:
-				*modeState = MODE_4;
-				break;
-			case MODE_4:
-				*modeState = MODE_5;
-				break;
-			case MODE_5:
-				*modeState = MODE_6;
-				break;
-			case MODE_6:
-				*modeState = MODE_7;
-				break;
-			case MODE_7:
-				*modeState = MODE_8;
-				break;
-			case MODE_8:
-				*modeState = MODE_9;
-				break;
-			case MODE_9:
-				*modeState = MODE_0;
-				break;
-			default:
-				break;
-		}
+
+    if(*modeState == MAX_MODE){
+      *modeState = MODE_0;
+      return;
+    }
+    else if(*modeState == MODE_0){
+      *modeState = MODE_1;
+      return;
+    }
+    else if(*modeState == MODE_1){
+      *modeState = MODE_2;
+      return;
+    }
+    else if(*modeState == MODE_2){
+      *modeState = MODE_3;
+      return;
+    }
+    else if(*modeState == MODE_3){
+      *modeState = MODE_4;
+      return;
+    }
+    else if(*modeState == MODE_4){
+      *modeState = MODE_5;
+      return;
+    }
+    else if(*modeState == MODE_5){
+      *modeState = MODE_6;
+      return;
+    }
+    else if(*modeState == MODE_6){
+      *modeState = MODE_7;
+      return;
+    }
+    else if(*modeState == MODE_7){
+      *modeState = MODE_8;
+      return;
+    }
+    else if(*modeState == MODE_8){
+      *modeState = MODE_9;
+      return;
+    }
+    else if(*modeState == MODE_9){
+      *modeState = MODE_0;
+      return;
+    }
+    else{
+      return;
+    }
     
 	}
 }
@@ -396,7 +410,7 @@ void checkBattery(ballonConfigurations* configurations, ADC_HandleTypeDef* hadc)
       HAL_ADC_PollForConversion(hadc, HAL_MAX_DELAY);
       unsigned int value = HAL_ADC_GetValue(hadc);
 
-      if(value < BATTERY_CHECK_FOR_PIN_26_TOGGLE){
+      if(value > BATTERY_CHECK_FOR_PIN_26_TOGGLE){
         if(configurations->chekingBatteryState == 0){
           if(configurations->chekingBatteryStateOnTime == 0){
             HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13,GPIO_PIN_SET);
