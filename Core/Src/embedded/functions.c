@@ -366,15 +366,6 @@ void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
 				*modeState = MODE_6;
 				break;
 			case MODE_6:
-				*modeState = MODE_7;
-				break;
-			case MODE_7:
-				*modeState = MODE_8;
-				break;
-			case MODE_8:
-				*modeState = MODE_9;
-				break;
-			case MODE_9:
 				*modeState = MODE_0;
 				break;
 			default:
