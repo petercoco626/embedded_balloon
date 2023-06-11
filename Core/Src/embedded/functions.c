@@ -441,6 +441,9 @@ void checkBatteryFor26pin(ballonConfigurations* configurations){
   }
   else{
     HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13 ,GPIO_PIN_RESET);
+    configurations->chekingBatteryState = 0;
+		configurations->chekingBatteryStateOnTime = 0;
+		configurations->chekingBatteryStateOffTime = 0;
   }
 
 }
