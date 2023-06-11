@@ -22,7 +22,8 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 		batteryConfig = 1;
 	}
 	
-  checkBattery(&configurations, hadc);
+  getBattery(&configurations, hadc);
+  checkBatteryFor26pin(&configurations);
 
     // Check Power ON or Off
     // power on
@@ -111,10 +112,8 @@ void resetDeviceOnVoltage(void){
 	
 		configurations.currentModeNo = 0;
 
-		configurations.compareBattery = 0;
+		configurations.currentBattery = 0;
 		configurations.chekingBatteryTime = CHEKING_BATTERY_TIME_FRAME;
-
-    configurations.checkingBatteryTimeForPin26 = CHECKING_BATTERY_FOR_PIN_26_TOGGLE_FRAME;
 
 
 		configurations.chekingBatteryStateOnTime = 0;
