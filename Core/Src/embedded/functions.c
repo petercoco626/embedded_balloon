@@ -439,6 +439,9 @@ void checkBatteryFor26pin(ballonConfigurations* configurations){
       }
     }
   }
+  else{
+    HAL_GPIO_WritePin(GPIOB,GPIO_PIN_13 ,GPIO_PIN_RESET);
+  }
 
 }
 
