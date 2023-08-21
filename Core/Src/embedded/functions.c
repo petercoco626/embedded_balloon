@@ -365,7 +365,7 @@ void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
       return;
     }
     else if(*modeState == MODE_3){
-      *modeState = MODE_4;
+      *modeState = MODE_6;
       return;
     }
     else if(*modeState == MODE_4){
