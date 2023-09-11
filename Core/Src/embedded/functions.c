@@ -455,19 +455,20 @@ void checkBatteryLed(ballonConfigurations* configurations){
     HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11,GPIO_PIN_SET);
   }
   else if(configurations->currentBattery > BATTERY_CHECK_STATE_2_ADC_MIN && configurations->currentBattery <= BATTERY_CHECK_STATE_2_ADC_MAX){
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11,GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_12,GPIO_PIN_SET);										
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_11 | GPIO_PIN_12,GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10,GPIO_PIN_SET);										
   }
   else if(configurations->currentBattery > BATTERY_CHECK_STATE_3_ADC_MIN && configurations->currentBattery <= BATTERY_CHECK_STATE_3_ADC_MAX){
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_10,GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_12 | GPIO_PIN_11 ,GPIO_PIN_SET);										
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12,GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,GPIO_PIN_SET);										
   }
   else if(configurations->currentBattery > BATTERY_CHECK_STATE_4_ADC_MIN && configurations->currentBattery <= BATTERY_CHECK_STATE_4_ADC_MAX){
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9,GPIO_PIN_RESET);					
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 ,GPIO_PIN_SET);										
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11,GPIO_PIN_RESET);					
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12 ,GPIO_PIN_SET);										
   }
   else{
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12,GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11,GPIO_PIN_SET);
   }
 
 }
