@@ -62,9 +62,10 @@ void runDevice(ballonConfigurations* configurations, unsigned char modeState, AD
     if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_4) == 0) {
       if(configurations->activatingSOI == 0 && configurations->isModeRunning == 0){
         configurations->timeCntModeBtn++;
+        return;
       }
     }
-    else{
+    
 			
 		if( configurations->timeCntModeBtn > 0 && configurations->timeCntModeBtn < FRAME_RUN_MODE_FUNC) {
 			if(configurations->isModeRunning == 0){
@@ -86,7 +87,7 @@ void runDevice(ballonConfigurations* configurations, unsigned char modeState, AD
 		
 		configurations->timeCntModeBtn = 0;
 					
-    }
+    
 		
 	
 
