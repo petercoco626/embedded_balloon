@@ -42,7 +42,7 @@ void switchPowerOff(void){
 		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_8,GPIO_PIN_RESET);
 	
     HAL_GPIO_WritePin(GPIOA,GPIO_PIN_9 | GPIO_PIN_10 
-						| GPIO_PIN_11 | GPIO_PIN_12,GPIO_PIN_RESET);
+						| GPIO_PIN_11 | GPIO_PIN_12,GPIO_PIN_SET);
 
 }
 
