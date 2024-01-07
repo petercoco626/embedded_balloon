@@ -221,6 +221,7 @@ void runMode(unsigned char ModeNo, ballonConfigurations* configurations){
 								HAL_GPIO_WritePin(GPIOB,GPIO_PIN_12,GPIO_PIN_RESET);
 								configurations->activatingTime = 0;
 								configurations->isModeRunning = 0;
+                configurations->activatingSOI = 1;
 							}
 							
 							break;
@@ -366,7 +367,7 @@ void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
       return;
     }
     else if(*modeState == MODE_3){
-      *modeState = MODE_6;
+      *modeState = MODE_4;
       return;
     }
     else if(*modeState == MODE_4){
@@ -378,7 +379,7 @@ void switchMode(unsigned char* modeState, ballonConfigurations* configurations){
       return;
     }
     else if(*modeState == MODE_6){
-      *modeState = MODE_7;
+      *modeState = MODE_0;
       return;
     }
     else if(*modeState == MODE_7){

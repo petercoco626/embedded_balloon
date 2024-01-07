@@ -33,7 +33,7 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 					
 			switch(currentState){
 				case POWER_ON_STATE:
-					if(modeState == MODE_5 || modeState == MODE_6){
+					if(modeState == MODE_6){
 						configurations.activatingSOIOnModeOver5 = 1;
 					}
 					
@@ -57,7 +57,7 @@ void balloonMachine(ADC_HandleTypeDef* hadc){
 		
 		switch(currentState){
 			case POWER_OFF_STATE:
-					if(modeState == MODE_5 || modeState == MODE_6){
+					if(modeState == MODE_6){
 						if(configurations.activatingSOIOnModeOver5 == 1){
 							runAOIOnModeOver5(&configurations);
 						}
